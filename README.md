@@ -1,2 +1,0 @@
-# ControlRender
-Created with CodeSandbox
