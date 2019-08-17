@@ -3,8 +3,11 @@ import { EventEmitter } from "events";
 export class StringControl extends EventEmitter {
   _value: string = "xxx";
 
-  constructor(){
+  constructor(value:string){
     super();
+
+    this._value = value;
+
     this.change = this.change.bind(this);
   }
 

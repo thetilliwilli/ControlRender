@@ -4,11 +4,15 @@ export class BoolControl extends EventEmitter {
 
   _value: boolean = false;
 
-  constructor(){
+  constructor(value : boolean){
     super();
+
+    this._value = value;
+    
     this.false = this.false.bind(this);
     this.true = this.true.bind(this);
     this.invert = this.invert.bind(this);
+
   }
 
   public false() { this.emit("changed", this._value=false); }

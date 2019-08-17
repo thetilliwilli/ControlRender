@@ -12,20 +12,42 @@ import { BoolView } from "./view/bool-view";
 import { SubsetControl } from "./control/subset-control";
 import { SubsetView } from "./view/single-subset-view";
 
-var integerControl = new IntegerControl();
-var stringControl = new StringControl();
-var boolControl = new BoolControl();
-var subsetControl = new SubsetControl<string>([...Array(5)].map((_,i)=>""+i));
+import { properties } from "./properties";
 
+function withLabel(text: string, node: React.ReactNode): React.ReactNode {
+  return (
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <label style={{color:"grey"}}> {text} </label>
+      {node}
+    </div>
+  );
+}
 
-function PropertyGrid(){
+function propertyToRenderer([propertyKey, propertyValue]: [
+  string,
+  any
+]): React.ReactNode {
+  switch (typeof propertyValue) {
+    case "number":
+      return <IntegerView control={new IntegerControl(propertyValue)} />;
+    case "string":
+      return <StringView control={new StringControl(propertyValue)} />;
+    case "boolean":
+      return <BoolView control={new BoolControl(propertyValue)} />;
+    case "object": return <StringView control={new StringControl(""+propertyValue)} />;
+    default:
+      return <StringView control={new StringControl(propertyValue)} />;
+  }
+}
+
+function PropertyGrid() {
+  var renderedProps = Object.entries(properties).map((x:[string,any]) =>
+    withLabel(x[0], propertyToRenderer(x))
+  );
   return (
     <div>
       <div>PropertyGrid</div>
-      <IntegerView control={integerControl} />
-      <StringView control={stringControl} />
-      <BoolView control={boolControl} />
-      <SubsetView control={subsetControl} />
+      <div>{renderedProps}</div>
     </div>
   );
 }
