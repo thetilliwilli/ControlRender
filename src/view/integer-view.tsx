@@ -27,15 +27,27 @@ export class IntegerView extends React.Component<
   }
 
   render() {
+    const inputStyle = {
+      backgroundColor: "lightgrey",
+      color: "white",
+      borderRadius: "2px",
+      border: "1px solid darkgrey",
+      flex:"14"
+    };
     const buttonStyle = {
       backgroundColor: "lightgrey",
       color: "white",
-      borderRadius: "4px",
-      border: "1px solid darkgrey"
+      borderRadius: "2px",
+      border: "1px solid darkgrey",
+      flex:"1",
+      marginLeft:"4px",
+      textAlign:"center",
+      cursor:"pointer",
+      userSelect:"none",
     };
     return (
-      <div>
-        <div>{this.state.value}</div>
+      <div style={{display:"flex",boxSizing:"border-box"}}>
+        <div style={inputStyle}>{this.state.value}</div>
         <div onClick={this.props.control.up} style={buttonStyle}>
           +
         </div>
