@@ -19,12 +19,11 @@ export class IntegerView extends React.Component<
   constructor(props: IntegerViewProps) {
     super(props);
     this.state = { value: props.control.value };
-    props.control.subscribe(this.onControlValueChanged);
+    props.control.on("changed", this.onControlValueChanged.bind(this));
   }
 
-  public onControlValueChanged(...args:any[]) : void {
-    console.log("onControlValueChanged");
-    // this.setState({ value:args[0] });
+  public onControlValueChanged(value: number): void {
+    this.setState({ value });
   }
 
   render() {
