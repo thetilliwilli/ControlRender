@@ -18,6 +18,7 @@ export class SubsetControl<TValue> extends BaseControl<{set:TValue[],subset:TVal
     this.emit("changed", this._value = { set: value.set, subset: value.subset.filter(x => !~value.subset.indexOf(x)) });
   }
   public replace(value: { set: TValue[], subset: TValue[] }) {
+    console.log("SubsetControl.replace", value);
     this.emit("changed", this._value = value);
   }
   public clear() {

@@ -18,14 +18,16 @@ export class SingeSubsetView extends BaseView<
       set: this.state.value.set,
       subset: [event.target.value]
     };
+    console.log("SingeSubsetView.onChange", newValue);
     this.props.control.replace(newValue);
   }
 
   render() {
+    console.log("SingeSubsetView.render");
     const inputStyle = { ...this.inputStyle, ...{ flex: "14" } };
 
     const options = this.state.value.set.map(x => (
-      <option value={x}>{x}</option>
+      <option key={x} value={x}>{x}</option>
     ));
 
     const selectedValue = this.state.value.subset[0];

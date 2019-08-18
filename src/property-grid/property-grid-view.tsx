@@ -1,4 +1,5 @@
 import * as React from "react";
+import {v4} from "uuid";
 
 import { ControlType } from "../control";
 import { IntegerControl } from "../control/integer-control";
@@ -21,6 +22,7 @@ export class PropertyGridView extends BaseView<
   PropertyGridControl
 > {
   render() {
+    console.log("PropertyGridView.render")
     const renderedProps = this.state.value.children.map(propertyInfo => {
       const propertyRender = this.propertyToRenderer(
         propertyInfo.property.value,
@@ -41,6 +43,11 @@ export class PropertyGridView extends BaseView<
       }
     };
 
+    const subsetControl = new SubsetControl({
+      set: ["DarkTheme", "LightTheme"],
+      subset: ["DarkTheme"]
+    });
+
     return (
       <div>
         <div
@@ -56,17 +63,9 @@ export class PropertyGridView extends BaseView<
             style={buttonStyle}
             className="button"
           >
-            {" "}
-            &#9664;{" "}
+            &#9664;
           </div>
-          <SingeSubsetView
-            control={
-              new SubsetControl({
-                set: ["DarkTheme", "LightTheme"],
-                subset: ["DarkTheme"]
-              })
-            }
-          />
+          <SingeSubsetView key={subsetControl} control={subsetControl} />
         </div>
         <div>{renderedProps}</div>
       </div>
@@ -106,6 +105,7 @@ export class PropertyGridView extends BaseView<
   private withLabel(text: string, node: React.ReactNode): React.ReactNode {
     return (
       <div
+        key={text}
         style={{ display: "flex", flexDirection: "column", marginTop: "12px" }}
       >
         <label style={{ color: "grey" }}> {text} </label>
