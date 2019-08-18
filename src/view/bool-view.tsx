@@ -2,27 +2,26 @@ import * as React from "react";
 
 import { BaseView } from "./base-view";
 import { BoolControl } from "../control/bool-control";
+// import { IViewProps } from "../interface/i-view-props";
 
 interface BoolViewProps {
   control: BoolControl;
 }
 
-interface BoolViewState {
-  value: boolean;
-}
+// interface BoolViewState {
+//   value: boolean;
+// }
 
-export class BoolView extends BaseView<BoolViewProps, BoolViewState> {
-  state: BoolViewState;
+export class BoolView extends BaseView<boolean, BoolViewProps> {
+  // constructor(props: BoolViewProps) {
+  //   super(props);
+  //   // this.state = { value: props.control.value };
+  //   // props.control.on("changed", this.onControlValueChanged.bind(this));
+  // }
 
-  constructor(props: BoolViewProps) {
-    super(props);
-    this.state = { value: props.control.value };
-    props.control.on("changed", this.onControlValueChanged.bind(this));
-  }
-
-  public onControlValueChanged(value: boolean): void {
-    this.setState({ value });
-  }
+  // public onControlValueChanged(value: boolean): void {
+  //   this.setState({ value });
+  // }
 
   render() {
     const inputStyle = {

@@ -12,7 +12,6 @@ interface IntegerViewState {
 }
 
 export class IntegerView extends BaseView<IntegerViewProps, IntegerViewState> {
-  state: IntegerViewState;
 
   constructor(props: IntegerViewProps) {
     super(props);
@@ -36,24 +35,21 @@ export class IntegerView extends BaseView<IntegerViewProps, IntegerViewState> {
         userSelect: "none"
       }
     };
-    // const buttonStyle = {
-    //   backgroundColor: "lightgrey",
-    //   color: "white",
-    //   borderRadius: "2px",
-    //   border: "1px solid darkgrey",
-    //   flex: "1",
-    //   marginLeft: "4px",
-    //   textAlign: "center",
-    //   cursor: "pointer",
-    //   userSelect: "none"
-    // };
     return (
       <div style={{ display: "flex", boxSizing: "border-box" }}>
         <div style={inputStyle}>{this.state.value}</div>
-        <div onClick={this.props.control.up} style={buttonStyle}>
+        <div
+          onClick={this.props.control.up}
+          style={buttonStyle}
+          className="button"
+        >
           +
         </div>
-        <div onClick={this.props.control.down} style={buttonStyle}>
+        <div
+          onClick={this.props.control.down}
+          style={buttonStyle}
+          className="button"
+        >
           -
         </div>
       </div>

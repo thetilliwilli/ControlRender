@@ -6,3 +6,8 @@
 body{
   background-color:rgb(28, 32, 34)
 }
+
+.button:hover{
+  /* transition: background-color .4s; */
+  background-color: rgb(102, 185, 244, 0.3) !important;
+}

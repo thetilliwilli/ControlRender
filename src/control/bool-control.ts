@@ -1,6 +1,7 @@
 import { EventEmitter } from "events";
+import {IControl} from "../interface/i-control";
 
-export class BoolControl extends EventEmitter {
+export class BoolControl extends EventEmitter implements IControl<boolean> {
 
   _value: boolean = false;
 
