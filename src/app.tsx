@@ -10,7 +10,7 @@ import { StringView } from "./view/string-view";
 import { BoolControl } from "./control/bool-control";
 import { BoolView } from "./view/bool-view";
 import { SubsetControl } from "./control/subset-control";
-import { SubsetView } from "./view/single-subset-view";
+import { SingeSubsetView } from "./view/single-subset-view";
 
 import { properties } from "./properties";
 
@@ -52,7 +52,10 @@ function PropertyGrid() {
   );
   return (
     <div>
-      <div style={{ color: "grey" }}>PropertyGrid</div>
+      <div>
+        <div style={{ color: "grey" }}>PropertyGrid</div>
+        <SingeSubsetView control={new SubsetControl({set:["DarkTheme","LightTheme"],subset:["DarkTheme"]})}/>
+      </div>
       <div>{renderedProps}</div>
     </div>
   );

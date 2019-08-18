@@ -3,26 +3,7 @@ import * as React from "react";
 import { IntegerControl } from "../control/integer-control";
 import { BaseView } from "./base-view";
 
-interface IntegerViewProps {
-  control: IntegerControl;
-}
-
-interface IntegerViewState {
-  value: number;
-}
-
-export class IntegerView extends BaseView<IntegerViewProps, IntegerViewState> {
-
-  constructor(props: IntegerViewProps) {
-    super(props);
-    this.state = { value: props.control.value };
-    props.control.on("changed", this.onControlValueChanged.bind(this));
-  }
-
-  public onControlValueChanged(value: number): void {
-    this.setState({ value });
-  }
-
+export class IntegerView extends BaseView<number, IntegerControl> {
   render() {
     const inputStyle = { ...this.inputStyle, ...{ flex: "14" } };
     const buttonStyle = {

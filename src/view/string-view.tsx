@@ -3,30 +3,16 @@ import * as React from "react";
 import { StringControl } from "../control/string-control";
 import { BaseView } from "./base-view";
 
-interface StringViewProps {
-  control: StringControl;
-}
 
-interface StringViewState {
-  value: string;
-}
+export class StringView extends BaseView<string, StringControl> {
 
-export class StringView extends BaseView<StringViewProps, StringViewState> {
-  state: StringViewState;
-
-  constructor(props: StringViewProps) {
-    super(props);
-    this.state = { value: props.control.value };
-    props.control.on("changed", this.onControlValueChanged.bind(this));
+  protected bindDelegateMethods(){
+    super.bindDelegateMethods();
     this.onChange = this.onChange.bind(this);
   }
 
   public onChange(event: any) {
     this.props.control.change(event.target.value);
-  }
-
-  public onControlValueChanged(value: string): void {
-    this.setState({ value });
   }
 
   render() {

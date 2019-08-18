@@ -1,13 +1,9 @@
-import { EventEmitter } from "events";
+import { BaseControl } from "./base";
 
-export class SubsetControl<T> extends EventEmitter {
-  _set: T[] = [];
-  _subset: T[] = [];
+export class SubsetControl<TValue> extends BaseControl<{set:TValue[],subset:TValue[]}>{
 
-  constructor(set : T[]){
-    super();
-
-    this._set = set;
+  constructor(value:{set:TValue[],subset:TValue[]}){
+    super(value);
 
     this.include = this.include.bind(this);
     this.exclude = this.exclude.bind(this);
@@ -15,11 +11,16 @@ export class SubsetControl<T> extends EventEmitter {
     this.clear = this.clear.bind(this);
   }
 
-  public include(values: T[]) { this.emit("changed", this._subset = this._subset.concat(values)); }
-  public exclude(values: T[]) { this.emit("changed", this._subset = this._subset.filter(x => !~values.indexOf(x))); }
-  public replace(values: T[]) { this.emit("changed", this._subset = values); }
-  public clear() { this.emit("changed", this._subset = []); }
-
-  public get set(): T[] { return this._set; }
-  public get subset(): T[] { return this._subset; }
+  public include(value: { set: TValue[], subset: TValue[] }) {
+    this.emit("changed", this._value = { set: value.set, subset: value.subset });
+  }
+  public exclude(value: { set: TValue[], subset: TValue[] }) {
+    this.emit("changed", this._value = { set: value.set, subset: value.subset.filter(x => !~value.subset.indexOf(x)) });
+  }
+  public replace(value: { set: TValue[], subset: TValue[] }) {
+    this.emit("changed", this._value = value);
+  }
+  public clear() {
+    this.emit("changed", this._value = { set: [], subset: [] });
+  }
 }

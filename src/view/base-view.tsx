@@ -7,11 +7,16 @@ export class BaseView<TValue, TControl extends IControl<TValue>> extends React.C
   
   constructor(props : IViewProps<TControl>) {
     super(props);
+    this.bindDelegateMethods();
     this.state = { value: props.control.value };
-    props.control.on("changed", this.onControlValueChanged.bind(this));
+    props.control.on("changed", this.onControlValueChanged);
   }
 
-  protected onControlValueChanged(value : any) : void{
+  protected bindDelegateMethods(){
+    this.onControlValueChanged = this.onControlValueChanged.bind(this)
+  }
+
+  protected onControlValueChanged(value: TValue): void {
     this.setState({ value });
   }
 
