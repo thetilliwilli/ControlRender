@@ -1,9 +1,9 @@
 import * as React from "react";
 import { IViewProps } from "../interface/i-view-props";
 import { IViewState } from "../interface/i-view-state";
-import { IControl } from "../interface/i-control";
+import { BaseControl } from "../control/base";
 
-export class BaseView<TValue, TControl extends IControl<TValue>> extends React.Component<IViewProps<TControl>, IViewState<TValue>> {
+export class BaseView<TValue, TControl extends BaseControl<TValue>> extends React.Component<IViewProps<TControl>, IViewState<TValue>> {
   
   constructor(props : IViewProps<TControl>) {
     super(props);

@@ -7,29 +7,37 @@ import { SubsetControl } from "../control/subset-control";
 import { ObjectControl } from "../control/object-control";
 import { BaseControl } from "../control/base";
 
-export class PropertyGrid {
+export class PropertyGridControl extends BaseControl<TreeNode<PropertyInfo>> {
   private _root: TreeNode<PropertyInfo>;
 
   constructor() {
-    this._root = new TreeNode(null, null);
+    //hacky: needs find another way
+    const rootNode = new TreeNode(new PropertyInfo("", "/", null, new IntegerControl(0)), null);
+
+    super(rootNode);
+
+    this._root = rootNode;
 
     this.toPropertyInfo = this.toPropertyInfo.bind(this);
   }
 
-  public bind(props : object) {
-    const entries = Object.entries(props)
-    .map(entry =>
-      this.toPropertyInfo(entry, this._root)
+  public bind(props: object) {
+    const propertyInfos = Object.entries(props).map(this.toPropertyInfo);
+
+    //connect to root
+    propertyInfos.forEach(propertyInfo =>
+      this._root.add(new TreeNode<PropertyInfo>(propertyInfo, this._root))
     );
+
+    this.emit("changed", this._root);
   }
 
-  private toPropertyInfo([key, value]: [string, any],parent: TreeNode<PropertyInfo>): PropertyInfo {
+  private toPropertyInfo([key, value]: [string, any]): PropertyInfo {
     const controlInstance = this.getResolvedControlInstance(value);
     return new PropertyInfo(key, "/", value, controlInstance);
-    // return new TreeNode(propertyInfo, parent);
   }
 
-  private chooseControlType(propertyValue : any) {
+  private chooseControlType(propertyValue: any) {
     switch (typeof propertyValue) {
       case "number":
         return IntegerControl;
