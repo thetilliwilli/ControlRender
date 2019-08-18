@@ -1,11 +1,11 @@
-export class TreeNode<T> {
+export class PropertyNode<T> {
   constructor(
-    public value: T,
-    public parent: TreeNode<T> | null,
-    public children: TreeNode<T>[] = []
+    public property: T,
+    public parent: PropertyNode<T> | null,
+    public children: PropertyNode<T>[] = []
   ) {}
 
-  public add(child: TreeNode<T>) {
+  public add(child: PropertyNode<T>) {
     this.children.push(child);
   }
 }

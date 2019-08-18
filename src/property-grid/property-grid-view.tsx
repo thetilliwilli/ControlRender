@@ -13,23 +13,28 @@ import { ObjectControl } from "../control/object-control";
 import { ObjectView } from "../view/object-view";
 import { BaseView } from "../view/base-view";
 import { PropertyGridControl } from "./property-grid-control";
-import { TreeNode } from "../tree/tree";
+import { PropertyNode } from "../tree/tree";
 import { PropertyInfo } from "./property-info";
 
-export class PropertyGridView extends BaseView<TreeNode<PropertyInfo>, PropertyGridControl> {
-
+export class PropertyGridView extends BaseView<
+  PropertyNode<PropertyInfo>,
+  PropertyGridControl
+> {
   render() {
-    var renderedProps = this.state.value.children.map(propertyInfo => {
+    const renderedProps = this.state.value.children.map(propertyInfo => {
       const propertyRender = this.propertyToRenderer(
-        propertyInfo.value.propertyValue,
-        propertyInfo.value.control
+        propertyInfo.property.value,
+        propertyInfo.property.control
       );
-      return this.withLabel(propertyInfo.value.propertyKey, propertyRender);
+      return this.withLabel(propertyInfo.property.key, propertyRender);
     });
+
+    const currentPath = this.traceCurrentPath();
+
     return (
       <div>
         <div>
-          <div style={{ color: "grey" }}>PropertyGrid</div>
+          <div style={{ color: "grey" }}>PropertyGrid [{currentPath}]</div>
           <SingeSubsetView
             control={
               new SubsetControl({
@@ -44,17 +49,29 @@ export class PropertyGridView extends BaseView<TreeNode<PropertyInfo>, PropertyG
     );
   }
 
-  private propertyToRenderer( propertyValue: any, controlInstance: ControlType ): React.ReactNode {
-    if(controlInstance instanceof IntegerControl)
+  private traceCurrentPath() {
+    var path: string = "";
+
+    for (var node = this.state.value; node.parent !== null; node = node.parent)
+      path += node.property.key;
+
+    return `${path}/${this.state.value.property.key}`;
+  }
+
+  private propertyToRenderer(
+    propertyValue: any,
+    controlInstance: ControlType
+  ): React.ReactNode {
+    if (controlInstance instanceof IntegerControl)
       return <IntegerView control={controlInstance} />;
 
-    if(controlInstance instanceof StringControl)
+    if (controlInstance instanceof StringControl)
       return <StringView control={controlInstance} />;
 
-    if(controlInstance instanceof BoolControl)
+    if (controlInstance instanceof BoolControl)
       return <BoolView control={controlInstance} />;
 
-    if(controlInstance instanceof ObjectControl)
+    if (controlInstance instanceof ObjectControl)
       return <ObjectView control={controlInstance} />;
 
     throw new Error(`Unknown property control: ${controlInstance}`);
@@ -63,7 +80,9 @@ export class PropertyGridView extends BaseView<TreeNode<PropertyInfo>, PropertyG
 
   private withLabel(text: string, node: React.ReactNode): React.ReactNode {
     return (
-      <div style={{ display: "flex", flexDirection: "column", marginTop: "12px" }} >
+      <div
+        style={{ display: "flex", flexDirection: "column", marginTop: "12px" }}
+      >
         <label style={{ color: "grey" }}> {text} </label>
         {node}
       </div>

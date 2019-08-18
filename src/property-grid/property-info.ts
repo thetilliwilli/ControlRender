@@ -2,9 +2,9 @@ import { ControlType } from "../control";
 
 export class PropertyInfo {
   constructor(
-    public propertyKey: string,
-    public propertyPath: string,
-    public propertyValue: any,
+    public key: string,
+    public path: string,
+    public value: any,
     public control: ControlType,
   ) {}
 }

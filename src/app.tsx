@@ -9,7 +9,7 @@ import { properties } from "./properties";
 
 
 var gridControl = new PropertyGridControl();
-gridControl.bind(properties);
+gridControl.mount(properties);
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(<PropertyGridView control={gridControl} />, rootElement);

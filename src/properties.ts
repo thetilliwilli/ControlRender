@@ -1,7 +1,10 @@
 export const properties: any = {
   guid: "feed30bd43114fd28ab116db2c9a79aa",
   // type: "ColumnChart",
-  position: {},
+  position: {
+    x: 237,
+    y: 101
+  },
   // positionLocked: false,
   // size: {},
   // title: {},

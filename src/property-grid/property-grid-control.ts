@@ -1,4 +1,4 @@
-import { TreeNode } from "../tree/tree";
+import { PropertyNode } from "../tree/tree";
 import { PropertyInfo } from "./property-info";
 import { IntegerControl } from "../control/integer-control";
 import { StringControl } from "../control/string-control";
@@ -7,26 +7,44 @@ import { SubsetControl } from "../control/subset-control";
 import { ObjectControl } from "../control/object-control";
 import { BaseControl } from "../control/base";
 
-export class PropertyGridControl extends BaseControl<TreeNode<PropertyInfo>> {
-  private _root: TreeNode<PropertyInfo>;
+export class PropertyGridControl extends BaseControl<PropertyNode<PropertyInfo>> {
+  private _root: PropertyNode<PropertyInfo>;
 
   constructor() {
     //hacky: needs find another way
-    const rootNode = new TreeNode(new PropertyInfo("", "/", null, new IntegerControl(0)), null);
+    const rootNode = new PropertyNode(
+      new PropertyInfo("", "/", null, new IntegerControl(0)),
+      null
+    );
 
     super(rootNode);
 
     this._root = rootNode;
 
     this.toPropertyInfo = this.toPropertyInfo.bind(this);
+    this.up = this.up.bind(this);
+    this.down = this.down.bind(this);
   }
 
-  public bind(props: object) {
+  public up(): void { }
+  public down(propertyInfo : PropertyInfo): void {
+    const rootNode = new PropertyNode(propertyInfo, null );
+    this._root = rootNode;
+    this.mount(propertyInfo.value);
+    // this.emit("changed", this._root);
+  }
+
+  public mount(props: object) {
     const propertyInfos = Object.entries(props).map(this.toPropertyInfo);
 
     //connect to root
     propertyInfos.forEach(propertyInfo =>
-      this._root.add(new TreeNode<PropertyInfo>(propertyInfo, this._root))
+      this._root.add(new PropertyNode<PropertyInfo>(propertyInfo, this._root))
+    );
+
+    //subscribe to tree navigation
+    propertyInfos.forEach(propertyInfo =>
+      propertyInfo.control.on("dive", ()=>this.down(propertyInfo))
     );
 
     this.emit("changed", this._root);
