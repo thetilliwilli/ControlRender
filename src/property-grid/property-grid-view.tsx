@@ -59,10 +59,11 @@ export class PropertyGridView extends BaseView<
             flexWrap:"wrap"
           }}
         >
-          <div style={{ color: "grey", width:"100%" }}>PropertyGrid [{currentPath}]</div>
+          <div style={{ color: "grey", width:"100%" }}>PropertyGrid</div>
+          <div style={{ color: "grey", width:"100%" }}>[{currentPath}]</div>
           <div
             onClick={this.props.control.upLevel}
-            style={{...buttonStyle,...{flex:.1}}}
+            style={buttonStyle}
             className="button"
           >
             &#9665;
