@@ -33,7 +33,10 @@ export class PropertyGridView extends BaseView<
 
     return (
       <div>
-        <div>
+        <div
+          className="property-grid-header"
+          style={{ border: "2px solid rgba(102, 185, 244, 0.6)", backgroundColor:"rgba(102, 185, 244, 0.3)" }}
+        >
           <div style={{ color: "grey" }}>PropertyGrid [{currentPath}]</div>
           <SingeSubsetView
             control={

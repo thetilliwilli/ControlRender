@@ -28,10 +28,9 @@ export class PropertyGridControl extends BaseControl<PropertyNode<PropertyInfo>>
 
   public up(): void { }
   public down(propertyInfo : PropertyInfo): void {
-    const rootNode = new PropertyNode(propertyInfo, null );
+    const rootNode = new PropertyNode(propertyInfo, null);
     this._root = rootNode;
     this.mount(propertyInfo.value);
-    // this.emit("changed", this._root);
   }
 
   public mount(props: object) {
