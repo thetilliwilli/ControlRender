@@ -11,6 +11,9 @@ import { BoolControl } from "./control/bool-control";
 import { BoolView } from "./view/bool-view";
 import { SubsetControl } from "./control/subset-control";
 import { SingeSubsetView } from "./view/single-subset-view";
+import { ObjectControl } from "./control/object-control";
+import { ObjectView } from "./view/object-view";
+
 
 import { properties } from "./properties";
 
@@ -36,11 +39,8 @@ function propertyToRenderer([propertyKey, propertyValue]: [
       return <StringView control={new StringControl(propertyValue)} />;
     case "boolean":
       return <BoolView control={new BoolControl(propertyValue)} />;
-    case "object":
-      const prop = Array.isArray(propertyValue)
-        ? `Array<${typeof propertyValue[0]}>(${propertyValue.length})`
-        : "" + propertyValue;
-      return <StringView control={new StringControl(prop)} />;
+    case "object": 
+      return <ObjectView control={new ObjectControl(propertyValue)} />;
     default:
       return <StringView control={new StringControl(propertyValue)} />;
   }
