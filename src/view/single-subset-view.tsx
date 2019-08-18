@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { SubsetControl } from "../control/subset-control";
+import { BaseView } from "./base-view";
 
 interface SubsetViewProps {
   control: SubsetControl<string>;
@@ -10,10 +11,7 @@ interface SubsetViewState {
   subset: string[];
 }
 
-export class SubsetView extends React.Component<
-  SubsetViewProps,
-  SubsetViewState
-> {
+export class SubsetView extends BaseView<SubsetViewProps, SubsetViewState> {
   state: SubsetViewState;
   set: string[];
 
@@ -34,16 +32,11 @@ export class SubsetView extends React.Component<
   }
 
   render() {
-    const inputStyle = {
-      backgroundColor: "lightgrey",
-      color: "white",
-      borderRadius: "2px",
-      border: "1px solid darkgrey",
-      flex: "14"
-    };
+    const inputStyle = { ...this.inputStyle, ...{ flex: "14" } };
+
     const options = this.set.map(x => <option value={x}>{x}</option>);
     return (
-      <div style={{display:"flex",boxSizing:"border-box"}}>
+      <div style={{ display: "flex", boxSizing: "border-box" }}>
         <select
           style={inputStyle}
           value={this.state.subset[0]}

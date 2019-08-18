@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { StringControl } from "../control/string-control";
+import { BaseView } from "./base-view";
 
 interface StringViewProps {
   control: StringControl;
@@ -10,10 +11,7 @@ interface StringViewState {
   value: string;
 }
 
-export class StringView extends React.Component<
-  StringViewProps,
-  StringViewState
-> {
+export class StringView extends BaseView<StringViewProps, StringViewState> {
   state: StringViewState;
 
   constructor(props: StringViewProps) {
@@ -33,13 +31,10 @@ export class StringView extends React.Component<
 
   render() {
     const inputStyle = {
-      backgroundColor: "lightgrey",
-      color: "white",
-      borderRadius: "2px",
-      border: "1px solid darkgrey",
-      flex: "14",
-      outline: "none"
+      ...this.inputStyle,
+      ...{ flex: "14", outline: "none" }
     };
+
     return (
       <div style={{ display: "flex", boxSizing: "border-box" }}>
         <input

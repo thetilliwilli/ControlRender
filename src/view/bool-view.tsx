@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { BaseView } from "./base-view";
 import { BoolControl } from "../control/bool-control";
 
 interface BoolViewProps {
@@ -10,7 +11,7 @@ interface BoolViewState {
   value: boolean;
 }
 
-export class BoolView extends React.Component<BoolViewProps, BoolViewState> {
+export class BoolView extends BaseView<BoolViewProps, BoolViewState> {
   state: BoolViewState;
 
   constructor(props: BoolViewProps) {
@@ -25,14 +26,10 @@ export class BoolView extends React.Component<BoolViewProps, BoolViewState> {
 
   render() {
     const inputStyle = {
-      backgroundColor: "lightgrey",
-      color: "white",
-      borderRadius: "2px",
-      border: "1px solid darkgrey",
-      flex: "14",
-      cursor: "pointer",
-      userSelect: "none"
+      ...this.inputStyle,
+      ...{ flex: "1", cursor: "pointer", userSelect: "none" }
     };
+
     return (
       <div style={{ display: "flex", boxSizing: "border-box" }}>
         <div style={inputStyle} onClick={this.props.control.invert}>

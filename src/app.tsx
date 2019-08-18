@@ -16,8 +16,10 @@ import { properties } from "./properties";
 
 function withLabel(text: string, node: React.ReactNode): React.ReactNode {
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <label style={{color:"grey"}}> {text} </label>
+    <div
+      style={{ display: "flex", flexDirection: "column", marginTop: "12px" }}
+    >
+      <label style={{ color: "grey" }}> {text} </label>
       {node}
     </div>
   );
@@ -34,19 +36,23 @@ function propertyToRenderer([propertyKey, propertyValue]: [
       return <StringView control={new StringControl(propertyValue)} />;
     case "boolean":
       return <BoolView control={new BoolControl(propertyValue)} />;
-    case "object": return <StringView control={new StringControl(""+propertyValue)} />;
+    case "object":
+      const prop = Array.isArray(propertyValue)
+        ? `Array<${typeof propertyValue[0]}>(${propertyValue.length})`
+        : "" + propertyValue;
+      return <StringView control={new StringControl(prop)} />;
     default:
       return <StringView control={new StringControl(propertyValue)} />;
   }
 }
 
 function PropertyGrid() {
-  var renderedProps = Object.entries(properties).map((x:[string,any]) =>
+  var renderedProps = Object.entries(properties).map((x: [string, any]) =>
     withLabel(x[0], propertyToRenderer(x))
   );
   return (
     <div>
-      <div>PropertyGrid</div>
+      <div style={{ color: "grey" }}>PropertyGrid</div>
       <div>{renderedProps}</div>
     </div>
   );

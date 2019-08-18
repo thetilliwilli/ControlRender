@@ -33,5 +33,5 @@ export const properties: any = {
   isManualColumnSettings: false,
   isStacking: false,
   nullDataHandling: 0,
-  colorPalette: []
+  colorPalette: [{"id": "cb374a832342428cb43a0453a9b72566","value": "rgba(40, 238, 150, 1)"}]
 };
