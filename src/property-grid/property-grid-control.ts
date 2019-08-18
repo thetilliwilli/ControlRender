@@ -27,19 +27,20 @@ export class PropertyGridControl extends BaseControl<PropertyNode<PropertyInfo>>
     if(this._value.parent === null)
       return;
     this._value = this._value.parent;
-    this.mount(this._value.property);
+    this.mount(this._value.property.value);
   }
 
-  public downLevel(propertyInfo : PropertyInfo): void {
-    this._value = new PropertyNode(propertyInfo, this._value);
-    this.mount(propertyInfo.value);
+  public downLevel(propertyNode : PropertyNode<PropertyInfo>): void {
+    this._value = propertyNode;
+    this.mount(this._value.property.value);
   }
 
   public mount(props: object) {
     
     // const rootNode = new PropertyNode(new PropertyInfo("", "/", null, new IntegerControl(0)), null);
-    this._value.setProperty(props as any);
+    // this._value.setProperty(props as any);
     this._value.clear();
+    this._value.property.value = props;
 
     const propertyInfos = Object.entries(props).map(this.toPropertyInfo);
 
@@ -49,8 +50,8 @@ export class PropertyGridControl extends BaseControl<PropertyNode<PropertyInfo>>
     );
 
     //subscribe to tree navigation
-    propertyInfos.forEach(propertyInfo =>
-      propertyInfo.control.on("dive", ()=>this.downLevel(propertyInfo))
+    this._value.children.forEach(propertyNode =>
+      propertyNode.property.control.on("dive", ()=>this.downLevel(propertyNode))
     );
 
     this.emit("changed", this._value);

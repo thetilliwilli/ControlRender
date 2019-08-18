@@ -54,18 +54,20 @@ export class PropertyGridView extends BaseView<
           className="property-grid-header"
           style={{
             border: "2px solid rgba(102, 185, 244, 0.3)",
-            backgroundColor: "rgba(102, 185, 244, 0.3)"
+            backgroundColor: "rgba(102, 185, 244, 0.3)",
+            display:"flex",
+            flexWrap:"wrap"
           }}
         >
-          <div style={{ color: "grey" }}>PropertyGrid [{currentPath}]</div>
+          <div style={{ color: "grey", width:"100%" }}>PropertyGrid [{currentPath}]</div>
           <div
             onClick={this.props.control.upLevel}
-            style={buttonStyle}
+            style={{...buttonStyle,...{flex:.1}}}
             className="button"
           >
-            &#9664;
+            &#9665;
           </div>
-          <SingeSubsetView key={subsetControl} control={subsetControl} />
+          <SingeSubsetView control={subsetControl}/>
         </div>
         <div>{renderedProps}</div>
       </div>
@@ -79,7 +81,7 @@ export class PropertyGridView extends BaseView<
     for (var node = this.state.value; node.parent !== null; node = node.parent)
       path.push(node.property.key);
 
-    return `/${path.reverse().join(".")}`;
+    return `.${path.reverse().join(".")}`;
   }
 
   private propertyToRenderer(
