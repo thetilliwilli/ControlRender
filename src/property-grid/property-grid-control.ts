@@ -8,45 +8,52 @@ import { ObjectControl } from "../control/object-control";
 import { BaseControl } from "../control/base";
 
 export class PropertyGridControl extends BaseControl<PropertyNode<PropertyInfo>> {
-  private _root: PropertyNode<PropertyInfo>;
+  // private _root: PropertyNode<PropertyInfo>;
 
   constructor() {
     //hacky: needs find another way
-    const rootNode = new PropertyNode(
-      new PropertyInfo("", "/", null, new IntegerControl(0)),
-      null
-    );
+    const rootNode = new PropertyNode(new PropertyInfo("", "/", null, new IntegerControl(0)), null);
 
     super(rootNode);
 
-    this._root = rootNode;
+    // this._value = rootNode;
 
     this.toPropertyInfo = this.toPropertyInfo.bind(this);
-    this.up = this.up.bind(this);
-    this.down = this.down.bind(this);
+    this.upLevel = this.upLevel.bind(this);
+    this.downLevel = this.downLevel.bind(this);
   }
 
-  public up(): void { }
-  public down(propertyInfo : PropertyInfo): void {
-    const rootNode = new PropertyNode(propertyInfo, null);
-    this._root = rootNode;
+  public upLevel(): void { 
+    if(this._value.parent === null)
+      return;
+    this._value = this._value.parent;
+    this.mount(this._value.property);
+  }
+
+  public downLevel(propertyInfo : PropertyInfo): void {
+    this._value = new PropertyNode(propertyInfo, this._value);
     this.mount(propertyInfo.value);
   }
 
   public mount(props: object) {
+    
+    // const rootNode = new PropertyNode(new PropertyInfo("", "/", null, new IntegerControl(0)), null);
+    this._value.setProperty(props as any);
+    this._value.clear();
+
     const propertyInfos = Object.entries(props).map(this.toPropertyInfo);
 
     //connect to root
     propertyInfos.forEach(propertyInfo =>
-      this._root.add(new PropertyNode<PropertyInfo>(propertyInfo, this._root))
+      this._value.add(new PropertyNode(propertyInfo, this._value))
     );
 
     //subscribe to tree navigation
     propertyInfos.forEach(propertyInfo =>
-      propertyInfo.control.on("dive", ()=>this.down(propertyInfo))
+      propertyInfo.control.on("dive", ()=>this.downLevel(propertyInfo))
     );
 
-    this.emit("changed", this._root);
+    this.emit("changed", this._value);
   }
 
   private toPropertyInfo([key, value]: [string, any]): PropertyInfo {

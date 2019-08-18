@@ -31,13 +31,34 @@ export class PropertyGridView extends BaseView<
 
     const currentPath = this.traceCurrentPath();
 
+    const buttonStyle = {
+      ...this.inputStyle,
+      ...{
+        flex: "1",
+        textAlign: "center",
+        cursor: "pointer",
+        userSelect: "none"
+      }
+    };
+
     return (
       <div>
         <div
           className="property-grid-header"
-          style={{ border: "2px solid rgba(102, 185, 244, 0.6)", backgroundColor:"rgba(102, 185, 244, 0.3)" }}
+          style={{
+            border: "2px solid rgba(102, 185, 244, 0.3)",
+            backgroundColor: "rgba(102, 185, 244, 0.3)"
+          }}
         >
           <div style={{ color: "grey" }}>PropertyGrid [{currentPath}]</div>
+          <div
+            onClick={this.props.control.upLevel}
+            style={buttonStyle}
+            className="button"
+          >
+            {" "}
+            &#9664;{" "}
+          </div>
           <SingeSubsetView
             control={
               new SubsetControl({
@@ -53,12 +74,13 @@ export class PropertyGridView extends BaseView<
   }
 
   private traceCurrentPath() {
-    var path: string = "";
+    console.log(this.state);
+    var path: string[] = [];
 
     for (var node = this.state.value; node.parent !== null; node = node.parent)
-      path += node.property.key;
+      path.push(node.property.key);
 
-    return `${path}/${this.state.value.property.key}`;
+    return `/${path.reverse().join(".")}`;
   }
 
   private propertyToRenderer(
