@@ -5,13 +5,27 @@ import { observer } from "mobx-react";
 
 @observer
 export class IntegerView extends BaseView<number, IntegerControl> {
-  render() {
+
+  //new way 
+  rerender(value: number, action: IntegerControl) {
     return (
       <span>
-        <span>{this.control.value}</span>
-        <span onClick={this.action.up}> + </span>
-        <span onClick={this.action.down}> - </span>
+        <span>{value}</span>
+        <span onClick={action.up}> + </span>
+        <span onClick={action.down}> - </span>
       </span>
     );
   }
+
+  //old school
+
+  // render() {
+  //   return (
+  //     <span>
+  //       <span>{this.control.value}</span>
+  //       <span onClick={this.action.up}> + </span>
+  //       <span onClick={this.action.down}> - </span>
+  //     </span>
+  //   );
+  // }
 }
