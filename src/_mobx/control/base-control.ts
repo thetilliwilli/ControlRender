@@ -1,7 +1,14 @@
+import {observable} from "mobx";
+
 export class BaseControl<TValue> {
 
-  constructor(protected value: TValue) {}
+  @observable
+  public value : TValue;
 
-  public getValue(): TValue { return this.value; }
+  constructor(value: TValue) {
+    this.value = value;
+  }
+
+  // public getValue(): TValue { return this.value; }
 
 }
